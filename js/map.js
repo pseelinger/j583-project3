@@ -2,7 +2,7 @@ d3.csv("unsheltered.csv", function(err, data) {
 
   var config = {"color1":"#d3e5ff","color2":"#08306B","stateDataColumn":"State","defaultValue":"2014","state":"State"};
 
-  var WIDTH = "100%", HEIGHT = "50vh";
+  var WIDTH = "100%", HEIGHT = "100vh";
 
   var COLOR_COUNTS = 9;
 
@@ -80,7 +80,7 @@ d3.csv("unsheltered.csv", function(err, data) {
   var COLOR_END = new Color(rgb.r, rgb.g, rgb.b);
 
   var width = "100%",
-      height = "50vh";
+      height = "100vh";
 
   var startColors = COLOR_START.getColors(),
       endColors = COLOR_END.getColors();
@@ -166,7 +166,7 @@ d3.csv("unsheltered.csv", function(err, data) {
             }
           })
           .attr("d", path)
-          .on("mousemove", function(d) {
+          .on("click", function(d) {
               var html = "";
 
               html += "<div class=\"tooltip_kv\">";
@@ -207,11 +207,7 @@ d3.csv("unsheltered.csv", function(err, data) {
                   .style("top", (d3.event.layerY + 15) + "px")
                   .style("left", (d3.event.layerX - tooltip_width - 30) + "px");
               }
-          })
-          .on("mouseout", function() {
-                  $(this).attr("fill-opacity", "1.0");
-                  $("#tooltip-container").hide();
-              });
+          });
 
       svg.append("path")
           .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
@@ -224,6 +220,8 @@ d3.csv("unsheltered.csv", function(err, data) {
 
     option_select.on("change", function() {
       drawMap($("#selectors").find(".option-select").val());
+      $("#tooltip-container").hide();
+
     });
 
 

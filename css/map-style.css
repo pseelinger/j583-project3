@@ -17,14 +17,17 @@ body {
 }
 
 #tooltip-container {
-  position: absolute;
+  position: static;
+  float: none;
   background-color: #fff;
   color: #000;
   padding: 10px;
   border: 1px solid;
   display: none;
+  float: right;
+  height: 100%;
+  width: 100%;
 }
-
 .tooltip_key {
   font-weight: bold;
 }
