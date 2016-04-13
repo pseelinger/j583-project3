@@ -20,7 +20,7 @@ var yAxis = d3.svg.axis()
 
 var line = d3.svg.line()
     .x(function(d) { return x(d.year); })
-    .y(function(d) { return y(d.Alaska); });
+    .y(function(d) { return y(d.Wyoming); });
 
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -28,6 +28,14 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 var states= [];
+var lines=[];
+var dat;
+function drawLine(line, data){
+      svg.append("path")
+        .datum(data)
+        .attr("class", "line")
+        .attr("d", line);
+      }
 
 d3.csv("states.csv", function(error, data) {
   if (error) throw error;
@@ -53,27 +61,31 @@ d3.csv("states.csv", function(error, data) {
       .style("text-anchor", "end")
       .text("Price ($)");
 
-  function drawLine(line){
-        svg.append("path")
-          .datum(data)
-          .attr("class", "line")
-          .attr("d", line);
-        }
-  drawLine(line);
+
+  drawLine(line, data);
   var select_state = d3.select("body").append("select");
-  var lines=[];
-  for(i in states){
-    select_state.append("option").text(states[i]);
-    lines[i] = d3.svg.line()
-                  .x(function(d) { return x(d.year); })
-                  .y(function(d) { return y(d[states[i]]); });
+
+  var state = "Alaska";
+  for(var l in states){
+    select_state.append("option").text(states[l]);
   }
-console.log(lines);
-drawLine(lines[20]);
+  function newLine(state){
+    line = d3.svg.line()
+                  .x(function(d) { return x(d.year); })
+                  .y(function(d) { return y(d[state]); });
+  }
+
+newLine("Alaska");
+
+
+    drawLine(line, data);
+    console.log(states);
+    console.log(data);
 });
 
+
 function type(d) {
-  d.date = formatDate.parse(d.date);
+  d.year = formatDate.parse(d.year);
   d.Alaska = +d.Alaska;
   return d;
 }
