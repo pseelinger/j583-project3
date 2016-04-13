@@ -2,7 +2,9 @@ var margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-var x = d3.scale.linear()
+var formatDate = d3.time.format("%d-%b-%y");
+
+var x = d3.time.scale()
     .range([0, width]);
 
 var y = d3.scale.linear()
@@ -16,38 +18,23 @@ var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left");
 
-//Initial line will show Alaska's data
-var lineInit = d3.svg.line()
+var line = d3.svg.line()
     .x(function(d) { return x(d.year); })
-    .y(function(d) { return y(d.Alaska); })
-    .interpolate("linear");
-var lines= [];
-var states= [];
+    .y(function(d) { return y(d.Alaska); });
+
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-//Dropdown Menu
-var select_state = d3.select("body").append("select")
-    .attr("class", "select_state");
+var states= [];
 
-//Get the data
-d3.csv('states.csv', function(data) {
-//Make a list of states in the dropdown menu and a line for each state
-    for(var i = 1; i <= Object.keys(data[0]).length - 1; i++ ){
-      states[i-1] = Object.keys(data[0])[i];
-    }
-    for(var i = 1; i <= Object.keys(data[0]).length - 1; i++ ){
-      select_state.append("option").text(Object.keys(data[0])[i]);
-      
-      console.log(states[i-1]);
-      lines[i-1] = d3.svg.line()
-          .x(function(d) { return x(d["year"]); })
-          .y(function(d) { var currentState = String(states[i-1]); return y(d[currentState]); })
-          .interpolate("linear");
-    }
-//Scale data to fit in graph
+d3.csv("states.csv", function(error, data) {
+  if (error) throw error;
+  for (var i = 1; i < Object.keys(data[0]).length ; i++){
+    states[i-1] = Object.keys(data[0])[i];
+  }
+
   x.domain(d3.extent(data, function(d) { return d.year; }));
   y.domain([0,100]);
 
@@ -64,13 +51,29 @@ d3.csv('states.csv', function(data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Percent");
+      .text("Price ($)");
 
-var drawline = function(line){ svg.append("path")
-      .datum(data)
-      .attr("class", "line")
-      .attr("d", line);
-};
-drawline(lines[4]);
-
+  function drawLine(line){
+        svg.append("path")
+          .datum(data)
+          .attr("class", "line")
+          .attr("d", line);
+        }
+  drawLine(line);
+  var select_state = d3.select("body").append("select");
+  var lines=[];
+  for(i in states){
+    select_state.append("option").text(states[i]);
+    lines[i] = d3.svg.line()
+                  .x(function(d) { return x(d.year); })
+                  .y(function(d) { return y(d[states[i]]); });
+  }
+console.log(lines);
+drawLine(lines[20]);
 });
+
+function type(d) {
+  d.date = formatDate.parse(d.date);
+  d.Alaska = +d.Alaska;
+  return d;
+}
