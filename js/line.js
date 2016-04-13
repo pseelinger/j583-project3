@@ -63,20 +63,24 @@ d3.csv("states.csv", function(error, data) {
 
 
   drawLine(line, data);
-  var select_state = d3.select("body").append("select");
+  var select_state = d3.select("body").append("select").attr("id", "state-select");
 
   var state = "Alaska";
   for(var l in states){
     select_state.append("option").text(states[l]);
   }
+  //function to change stae shown
   function newLine(state){
     line = d3.svg.line()
                   .x(function(d) { return x(d.year); })
                   .y(function(d) { return y(d[state]); });
+    drawLine(line, data);
   }
 
-newLine("Alaska");
-
+newLine("Florida");
+$("#state-select").on("change", function(){
+  newLine($("#state-select option:selected").text());
+});
 
     drawLine(line, data);
     console.log(states);
