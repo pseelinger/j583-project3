@@ -16,10 +16,10 @@ var xAxis = d3.svg.axis()
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left");
-//Initial line is Alaska's data
+//Initial line is Alabama's data
 var line = d3.svg.line()
     .x(function(d) { return x(d.year); })
-    .y(function(d) { return y(d.Alaska); });
+    .y(function(d) { return y(d.Alabama); });
 
 var svg = d3.select("#svg-container").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -27,7 +27,7 @@ var svg = d3.select("#svg-container").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 var states = [];
-
+var statesOnGraph = [];
 
 d3.csv("states.csv", function(error, data) {
 if (error) throw error;
@@ -35,6 +35,7 @@ if (error) throw error;
 for (var i = 1; i < Object.keys(data[0]).length ; i++){
       states[i-1] = Object.keys(data[0])[i];
     }
+    states.sort();
 // set up axes
   x.domain(d3.extent(data, function(d) { return d.year; }));
   y.domain([0,100]);
@@ -55,7 +56,7 @@ for (var i = 1; i < Object.keys(data[0]).length ; i++){
       .text("Percent");
 
 //Function to draw the line
-var statesOnGraph = [];
+
   function drawLine(line, data, state){
 
     function isOnGraph (e){
@@ -79,7 +80,7 @@ if(!isOnGraph(state)){
     d3.select("#legend").append("p")
         .data("data")
         .text(state)
-        .attr("style", "color:" + stroke )
+        .attr("style", "background-color:" + stroke )
         .attr("fill", stroke);
         //add the state to the list of states plotted
         statesOnGraph.push(state);
@@ -87,7 +88,7 @@ if(!isOnGraph(state)){
     }
 
 // select menu
-  var select_state = d3.select("body").append("select").attr("id", "state-select");
+  var select_state = d3.select("#controls").append("select").attr("id", "state-select");
 
 
   for(var l in states){
@@ -106,7 +107,11 @@ if(!isOnGraph(state)){
 $("#state-select").on("change", function(){
   newLine($("#state-select option:selected").text());
 });
-
+$("#reset").click(function(){
+  statesOnGraph = [];
+  $('.line').hide();
+  $('#legend p').hide();
+});
 //Draw the initial line on the graph
-drawLine(line, data, "Alaska");
+drawLine(line, data, "Alabama");
 });
