@@ -1,0 +1,28 @@
+@font-face {
+  font-family: "Estandar";
+  src:url('Estandar-Regular.ttf');
+}
+@font-face {
+  font-family: "Sanford";
+  src:url('Sanford.ttf');
+}
+body{
+  background: #f9f9f9;
+}
+h1, p{
+  color: #313a37;
+  font-family: "Estandar";
+}
+p{
+  font-family: "Sanford";
+}
+svg{
+  background-color: #03b83f;
+  margin: 0 auto;
+  padding: 50px;
+}
+#svg-container{
+  padding-left: 100px;
+  padding-right: 100px;
+  margin: 0 auto;
+}
