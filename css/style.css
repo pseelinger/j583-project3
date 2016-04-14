@@ -7,9 +7,9 @@
   src:url('Sanford.ttf');
 }
 body{
-  background: #f9f9f9;
+  background: #555555;
 }
-h1, p{
+h1, p, h2{
   color: #313a37;
   font-family: "Estandar";
 }
@@ -17,12 +17,31 @@ p{
   font-family: "Sanford";
 }
 svg{
-  background-color: #03b83f;
+  background-color: #f9f9f9;
   margin: 0 auto;
-  padding: 50px;
+  padding: 0 75px 0 0;
+}
+select{
+  float: left;
+  margin-top: 25px;
+  margin-right: 20px;
 }
 #svg-container{
-  padding-left: 100px;
-  padding-right: 100px;
   margin: 0 auto;
+  display: inline-block;
+}
+#legend{
+  display: inline-block;
+  float: left;
+  margin-right: 25px;
+  padding-left: 5px;
+  padding: 0 10px 50px 10px;
+  background: #eeeeee;
+}
+#legend p{
+  padding: 0;
+  margin-bottom: -15px;
+}
+.nodisplay{
+  display: none;
 }

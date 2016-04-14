@@ -3,8 +3,6 @@ var margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-var formatDate = d3.time.format("%d-%b-%y");
-
 var x = d3.scale.linear()
     .range([0, width]);
 
@@ -57,20 +55,37 @@ for (var i = 1; i < Object.keys(data[0]).length ; i++){
       .text("Percent");
 
 //Function to draw the line
+var statesOnGraph = [];
   function drawLine(line, data, state){
+
+    function isOnGraph (e){
+      return statesOnGraph.indexOf(e) > -1;
+    }
+
+    var stroke = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);})
+
+console.log(isOnGraph(state));
+
+//check if the state has already been plotted
+if(!isOnGraph(state)){
+
+  //draw the line if it has not been plotted
     svg.append("path")
       .datum(data)
-      .attr("class", "line")
-      .attr("d", line);
+      .attr("class", "line ")
+      .attr("d", line)
+      .attr("stroke", stroke);
 
-    svg.append("text")
+    d3.select("#legend").append("p")
         .data("data")
-        .attr("transform", "translate(" + (width+1) + "," + y(data[0][state]) + ")")
-        .attr("text-anchor", "start")
         .text(state)
-        .attr("font-size", "20px")
-        .attr("fill", "red");
+        .attr("style", "color:" + stroke )
+        .attr("fill", stroke);
+        //add the state to the list of states plotted
+        statesOnGraph.push(state);
       }
+    }
+
 // select menu
   var select_state = d3.select("body").append("select").attr("id", "state-select");
 
@@ -81,7 +96,6 @@ for (var i = 1; i < Object.keys(data[0]).length ; i++){
   //function to change state shown
   var state = "";
   function newLine(state){
-    // $('.line').hide();
     line = d3.svg.line()
                   .x(function(d) { return x(d.year); })
                   .y(function(d) { return y(d[state]); });
@@ -92,6 +106,7 @@ for (var i = 1; i < Object.keys(data[0]).length ; i++){
 $("#state-select").on("change", function(){
   newLine($("#state-select option:selected").text());
 });
+
 //Draw the initial line on the graph
 drawLine(line, data, "Alaska");
 });
