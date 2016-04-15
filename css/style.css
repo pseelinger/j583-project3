@@ -81,8 +81,8 @@ select{
 div.tooltip {
   position: absolute;
   text-align: center;
-  width: 60px;
-  height: 50px;
+  width: 120px;
+  height: 30px;
   padding: 5px;
   font-size: 14px;
   font-family: Estandar;
