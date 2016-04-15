@@ -67,6 +67,9 @@ select{
   color: white;
   font-size: 18px;
 }
+select:focus, button:focus{
+  outline: none;
+}
 #controls{
   margin-bottom: 80px;
 }
@@ -87,10 +90,7 @@ select{
   margin-bottom: -15px;
   color: white;
 }
-.nodisplay{
-  display: none;
-}
-div.tooltip {
+.tooltip {
   position: absolute;
   text-align: center;
   width: 120px;
@@ -116,6 +116,7 @@ div.tooltip {
   padding-top: 20px;
   margin-top: 20px;
   margin-bottom: 0;
+  line-height: 1.25;
 }
 #footer a{
   text-decoration: none;

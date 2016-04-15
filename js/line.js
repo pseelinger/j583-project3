@@ -99,7 +99,7 @@ for (var i = 1; i < Object.keys(data[0]).length ; i++){
           //controls the tooltip
           .on("mouseover", function(d) {
             div.transition()
-                .duration(500)
+                .duration(300)
                 .style("opacity", 1);
             div .html(state + " " + d.year + ": " + Number(d[state]).toFixed(2) + "%")
                 .style("left", (d3.event.pageX - 15) + "px")
@@ -116,7 +116,7 @@ for (var i = 1; i < Object.keys(data[0]).length ; i++){
             .text(state)
             .attr("style", "background-color:" + stroke )
             .attr("fill", stroke);
-            //add the state to the list of states already plotted
+            //add the state to the array of states already plotted
             statesOnGraph.push(state);
           }
 }
