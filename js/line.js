@@ -76,7 +76,9 @@ for (var i = 1; i < Object.keys(data[0]).length ; i++){
 
 //check if the state has already been plotted
     if(!isOnGraph(state)){
-
+      var div = d3.select("body").append("div")
+   .attr("class", "tooltip")
+   .style("opacity", 0);
       //draw the line if it has not been plotted
         svg.append("path")
           .datum(data)
@@ -91,8 +93,21 @@ for (var i = 1; i < Object.keys(data[0]).length ; i++){
           .attr("class", "point")
           .attr("cx", function(d){ return x(d.year) ;})
           .attr("cy", function(d){ return y(d[state]) ;})
-          .attr("r", 4)
-          .attr("fill", stroke);
+          .attr("r", 5)
+          .attr("fill", stroke)
+          .on("mouseover", function(d) {
+            div.transition()
+                .duration(500)
+                .style("opacity", 1);
+            div .html(state + " " + d.year + ": " + Number(d[state]).toFixed(2) + "%")
+                .style("left", (d3.event.pageX - 15) + "px")
+                .style("top", (d3.event.pageY - 70) + "px");
+            })
+          .on("mouseout", function(d) {
+              div.transition()
+                  .duration(500)
+                  .style("opacity", 0);
+        });
 
         d3.select("#legend").append("p")
             .data("data")
@@ -102,8 +117,8 @@ for (var i = 1; i < Object.keys(data[0]).length ; i++){
             //add the state to the list of states plotted
             statesOnGraph.push(state);
           }
-        }
 
+}
 // select menu
   var select_state = d3.select("#controls").append("select").attr("id", "state-select");
 
@@ -133,11 +148,8 @@ $("#reset").click(function(){
   $('#legend p').hide();
   $('.point').hide();
 });
-$('circle').click(function(){
-    var yVal = getAttribute(this);
-    console.log(yVal);
-});
 //Draw the initial line on the graph
 var stroke = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);})
 drawLine(line, data, "Alabama", stroke);
+
 });
