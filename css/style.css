@@ -6,19 +6,26 @@
   font-family: "Sanford";
   src:url('Sanford.ttf');
 }
-body{
-  background: #cccccc;
+html, body{
+  background: #aaaaaa;
 }
 #wrapper{
-  margin:25px;
+  margin: -1%;
+  height: 100%;
+  margin: -1%;
+  padding: 20px 35px 30px 35px;
+  background-color: #eeeeee;
 }
-h1, p, h2{
+p, h2{
   color: #333333;
   font-family: "Estandar";
 }
 h1{
-  font-size: 40px;
+  font-size: 48px;
   text-decoration: underline;
+  font-weight: normal;
+  font-family: Estandar;
+  margin-bottom: 10px;
 }
 h2{
   font-weight: normal;
@@ -31,7 +38,7 @@ p{
   line-height: 1.5;
 }
 svg{
-  background-color: #eeeeee;
+  /*background-color: #5794B2;*/
   margin: 0 auto;
   padding: 50px;
 }
@@ -39,7 +46,7 @@ button{
   float: right;
   font-family: Estandar;
   padding: 6px;
-  background-color: #7BAFD4;
+  background-color: #B22B03;
   color: white;
   border-radius: 5px;
   border: 0px;
@@ -51,7 +58,7 @@ select{
   font-family: Estandar;
   padding: 4px;
   border-radius: 5px 5px 0 0;
-  background-color: #7BAFD4;
+  background-color: #B22B03;
   color: white;
   font-size: 18px;
 }
@@ -86,8 +93,25 @@ div.tooltip {
   padding: 5px;
   font-size: 14px;
   font-family: Estandar;
-  background: #cccccc;
+  letter-spacing: 1px;
+  background: #B22B03;
   border: 0px;
   border-radius: 4px;
   pointer-events: none;
+  color: #eeeeee;
+}
+#footer{
+  margin-bottom: -1%;
+  background-color: #aaaaaa;
+}
+#footer p{
+  font-size: 12px;
+  color: #333333;
+  letter-spacing: .75px;
+  padding-top: 20px;
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+#footer a{
+  text-decoration: none;
 }

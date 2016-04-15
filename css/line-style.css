@@ -1,14 +1,13 @@
-/*body {
-  font: 10px sans-serif;
-}*/
-
 .axis path,
 .axis line {
   fill: none;
   stroke: #313a37;
+  stroke-width: 3px;
   shape-rendering: crispEdges;
 }
-
+circle:hover{
+  r: 8px;
+}
 .line {
   fill: none;
   stroke-width: 4px;
@@ -17,4 +16,10 @@
   color: #313a37;
   font-size: 1.25em;
   font-family: "Sanford";
+}
+.tick line{
+  display: none;
+}
+.tick text{
+  margin-top: 20px;
 }

@@ -14,15 +14,19 @@
 <body>
   <div id="wrapper">
   <h1>The Unsheltered Homeless</h1>
-    <p>It may seem a bit redunant to call homeless people "unsheltered", but the term refers to a specific set of people. The fact is, there are not enough shelters
-    in the U.S. to house its large homeless population, even temporarily. Below is a graph of the percentage of a state's total homeless population that cannot
-    find shelter. From 2007 to 2014, we've seen a slight decrease in these percentages overall, but some states have seen a significant increase in their unsheltered homeless
-    populations. Select a state from the dropdown menu to see the data, and hover above the line to view info about individual years.</p>
+    <p>A certain subset of homeless people in the United States falls into a category labeled "unsheletered". This refers to those individuals who meet the critria for homelessness, but
+    are also unable to regularly find some sort of shelter at night, such as a homeless shelter. In most states, a large percentage of the homeless population falls into that category
+    due to the fact that there are just simply not enought shelters to house the nation's large homeless population.</p>
+    <p>Below is a graph showing the percentage of each state's homeless population that is unsheltered. Use the drop down menu to compare states, or to compare a state against the national average.
+     You can also hover over the points for each year to see the exact percentage. Clicking "Reset Graph" will clear all lines off the graph.</p>
     <div id="legend">
       <h2>Legend</h2>
       <div id="controls"><button id="reset">Reset Graph</button></div>
     </div>
     <div id="svg-container"></div>
+  </div>
+  <div id="footer">
+    <p>Data for this project comes from the Department of Housing and Urban Development via <a href="https://www.hudexchange.info/resources/documents/2007-2014-PIT-Counts-by-State.xlsx">data.gov</a>.</p>
   </div>
 <script src="js/line.js"></script>
 </body>
