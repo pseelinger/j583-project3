@@ -40,52 +40,69 @@ for (var i = 1; i < Object.keys(data[0]).length ; i++){
   x.domain(d3.extent(data, function(d) { return d.year; }));
   y.domain([0,100]);
 
+  svg.append("text")
+      .text("Percent of Homeless Population Without Shelter by State")
+      .attr("transform", "translate(" + width/2 + ",0)")
+      .attr("text-anchor", "middle")
+      .attr("style", "font-size: 30px; font-family: Estandar;");
+
   svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
+      .call(xAxis)
+    .append("text")
+      .text("Year")
+      .attr("transform", "translate(" + width/2 + ",60)")
+      .style("font-size", "24px")
+      .attr("text-anchor", "middle");
 
   svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
     .append("text")
-      .attr("transform", "rotate(-90)")
+      .attr("transform", "translate(-80," + height/2 + ") rotate(-90)")
       .attr("y", 6)
       .attr("dy", ".71em")
-      .style("text-anchor", "end")
+      .style("text-anchor", "middle")
+      .style("font-size", "24px")
       .text("Percent");
 
 //Function to draw the line
-
-  function drawLine(line, data, state){
+  function drawLine(line, data, state, stroke){
 
     function isOnGraph (e){
       return statesOnGraph.indexOf(e) > -1;
     }
 
-    var stroke = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);})
-
-console.log(isOnGraph(state));
-
 //check if the state has already been plotted
-if(!isOnGraph(state)){
+    if(!isOnGraph(state)){
 
-  //draw the line if it has not been plotted
-    svg.append("path")
-      .datum(data)
-      .attr("class", "line ")
-      .attr("d", line)
-      .attr("stroke", stroke);
+      //draw the line if it has not been plotted
+        svg.append("path")
+          .datum(data)
+          .attr("class", "line ")
+          .attr("d", line)
+          .attr("stroke", stroke);
 
-    d3.select("#legend").append("p")
-        .data("data")
-        .text(state)
-        .attr("style", "background-color:" + stroke )
-        .attr("fill", stroke);
-        //add the state to the list of states plotted
-        statesOnGraph.push(state);
-      }
-    }
+        svg.selectAll("point")
+          .data(data)
+          .enter()
+          .append("circle")
+          .attr("class", "point")
+          .attr("cx", function(d){ return x(d.year) ;})
+          .attr("cy", function(d){ return y(d[state]) ;})
+          .attr("r", 4)
+          .attr("fill", stroke);
+
+        d3.select("#legend").append("p")
+            .data("data")
+            .text(state)
+            .attr("style", "background-color:" + stroke )
+            .attr("fill", stroke);
+            //add the state to the list of states plotted
+            statesOnGraph.push(state);
+          }
+        }
 
 // select menu
   var select_state = d3.select("#controls").append("select").attr("id", "state-select");
@@ -97,11 +114,14 @@ if(!isOnGraph(state)){
   //function to change state shown
   var state = "";
   function newLine(state){
+    //generate a random color for the line and its identifier in the legend
+    var stroke = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);})
+
     line = d3.svg.line()
                   .x(function(d) { return x(d.year); })
                   .y(function(d) { return y(d[state]); });
 
-    drawLine(line, data, state);
+    drawLine(line, data, state, stroke);
   }
 // the handler for changing the line
 $("#state-select").on("change", function(){
@@ -111,7 +131,13 @@ $("#reset").click(function(){
   statesOnGraph = [];
   $('.line').hide();
   $('#legend p').hide();
+  $('.point').hide();
+});
+$('circle').click(function(){
+    var yVal = getAttribute(this);
+    console.log(yVal);
 });
 //Draw the initial line on the graph
-drawLine(line, data, "Alabama");
+var stroke = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);})
+drawLine(line, data, "Alabama", stroke);
 });
